@@ -133,8 +133,12 @@ public class Anomaly {
 //  To save Anomaly Index of all files into Outputfile.  
 //  anomalyIndex.toJavaRDD().saveAsTextFile(OutputFilePath);
     
-    System.out.println("Top 5 rows........................");
-//  anomalyIndex.sort(org.apache.spark.sql.functions.desc("AnomalyIndex")).show(10);
-    anomalyIndex.sort(org.apache.spark.sql.functions.desc("AnomalyIndex")).toJavaRDD().top(5);
+//  Find Top 5 Files with Maximum Anomaly Index.
+    DataFrame top5 = anomalyIndex.sort(org.apache.spark.sql.functions.desc("AnomalyIndex")).limit(5);
+
+//This will display Top 5 on Console
+    top5.show();
+//This will save top 5 to file
+    top5.javaRDD().saveAsTextFile(OutputFilePath);
    }
 }​
